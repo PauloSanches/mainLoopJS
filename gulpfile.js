@@ -32,6 +32,9 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('default'));
 });
 
+gulp.task('test-travis', ['build']);
+
+
 gulp.task('default', function() {
   gulp.watch('mainLoop.js', ['lint']);
 });
