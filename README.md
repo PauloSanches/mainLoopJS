@@ -1,4 +1,4 @@
-MainLoopJS
+MainLoopJS https://travis-ci.org/PauloSanches/mainLoopJS.svg?branch=master
 ==========
 
 A javascript library for handler RequestAnimationFrame
