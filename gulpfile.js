@@ -4,25 +4,12 @@ var gulp = require('gulp'),
   uglify = require("gulp-uglify"),
   watch = require("gulp-watch"),
   rename = require('gulp-rename'),
+  clean = require('gulp-clean'),
   pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
-// Build script
-gulp.task('build', ['rename'], function(){
-    gulp.start('minify');
-});
-
-// Minify JavaScript
-gulp.task('minify', function() {
-  gulp.src('mainLoop.min.js')
-    .pipe(uglify())
-    .pipe(gulp.dest('./'));
-});
-
-// Rename minify file
-gulp.task('rename', function(){
-  gulp.src('mainLoop.js')
-  .pipe(rename('mainLoop.min.js'))
-  .pipe(gulp.dest('./'))
+// Default task
+gulp.task('default', function() {
+  gulp.watch('mainLoop.js', ['lint']);
 });
 
 // Lint JavaScript
@@ -32,9 +19,30 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('test-travis', ['build']);
-
-
-gulp.task('default', function() {
-  gulp.watch('mainLoop.js', ['lint']);
+// Build script
+gulp.task('build', ['lint','clean'], function() {
+  gulp.start('minify');
 });
+
+// Minify JavaScript
+gulp.task('minify', ['rename'],function() {
+  gulp.src('mainLoop.min.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('./'));
+});
+
+// Rename minify file
+gulp.task('rename', function() {
+  return gulp.src('mainLoop.js')
+    .pipe(rename('mainLoop.min.js'))
+    .pipe(gulp.dest('./'));
+});
+
+// Clean files
+gulp.task('clean', function() {
+  return gulp.src('mainLoop.min.js', {read: false})
+     .pipe(clean());
+});
+
+// Travis CI
+gulp.task('test-travis', ['build']);
