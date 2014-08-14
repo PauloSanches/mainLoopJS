@@ -13,7 +13,7 @@ mainLoop.start();
 ## Params
 
 | Parameter     | Description       |
-|---------------|--------- ---------|
+|---------------|-------------------|
 | id            | Instance name     |
 | frame rate    | Frames per second |
 | callback      | Function return   |
